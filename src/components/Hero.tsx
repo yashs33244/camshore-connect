@@ -1,9 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Building2, Home } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 
 const Hero = () => {
   const [segment, setSegment] = useState<"b2b" | "d2c">("b2b");
+  const { toast } = useToast();
+
+  useEffect(() => {
+    // Track segment changes
+    console.log('Segment changed:', segment);
+    
+    // Show a welcome message based on segment
+    toast({
+      title: `Welcome to ${segment === 'b2b' ? 'Business' : 'Consumer'} Solutions`,
+      description: segment === 'b2b' 
+        ? "Discover enterprise-grade security solutions"
+        : "Explore smart home security products",
+    });
+  }, [segment]);
 
   return (
     <div className="pt-16 bg-gradient-to-br from-primary to-primary-light min-h-screen flex items-center">
