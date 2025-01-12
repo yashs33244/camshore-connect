@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Building2, Home } from "lucide-react";
+import { Building2, Home, Shield, Users } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 
 const Hero = () => {
@@ -8,10 +8,8 @@ const Hero = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Track segment changes
     console.log('Segment changed:', segment);
     
-    // Show a welcome message based on segment
     toast({
       title: `Welcome to ${segment === 'b2b' ? 'Business' : 'Consumer'} Solutions`,
       description: segment === 'b2b' 
@@ -19,6 +17,14 @@ const Hero = () => {
         : "Explore smart home security products",
     });
   }, [segment]);
+
+  const handleDemoRequest = (e: React.FormEvent) => {
+    e.preventDefault();
+    toast({
+      title: "Demo Request Received",
+      description: "Our team will contact you shortly to schedule your demo.",
+    });
+  };
 
   return (
     <div className="pt-16 bg-gradient-to-br from-primary to-primary-light min-h-screen flex items-center">
@@ -83,6 +89,24 @@ const Hero = () => {
                 </Button>
               </>
             )}
+          </div>
+
+          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-4xl">
+            <div className="bg-white/10 p-6 rounded-lg backdrop-blur-sm">
+              <Shield className="h-8 w-8 mb-4 mx-auto text-accent" />
+              <h3 className="text-lg font-semibold mb-2">Advanced Security</h3>
+              <p className="text-sm opacity-80">Enterprise-grade encryption and protection for your data</p>
+            </div>
+            <div className="bg-white/10 p-6 rounded-lg backdrop-blur-sm">
+              <Users className="h-8 w-8 mb-4 mx-auto text-accent" />
+              <h3 className="text-lg font-semibold mb-2">24/7 Support</h3>
+              <p className="text-sm opacity-80">Round-the-clock technical assistance and monitoring</p>
+            </div>
+            <div className="bg-white/10 p-6 rounded-lg backdrop-blur-sm">
+              <Building2 className="h-8 w-8 mb-4 mx-auto text-accent" />
+              <h3 className="text-lg font-semibold mb-2">Scalable Solutions</h3>
+              <p className="text-sm opacity-80">Flexible systems that grow with your needs</p>
+            </div>
           </div>
         </div>
       </div>

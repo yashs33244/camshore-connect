@@ -1,5 +1,8 @@
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
+import Products from "@/components/Products";
+import Solutions from "@/components/Solutions";
+import About from "@/components/About";
 import Metrics from "@/components/Metrics";
 
 const Index = () => {
@@ -8,6 +11,9 @@ const Index = () => {
       <Metrics />
       <Navigation />
       <Hero />
+      <Products />
+      <Solutions />
+      <About />
     </div>
   );
 };
