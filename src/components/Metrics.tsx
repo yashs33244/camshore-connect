@@ -8,7 +8,7 @@ const Metrics = () => {
     // Performance metrics
     const trackPageLoad = () => {
       const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
-      const loadTime = navigation.loadEventEnd - navigation.navigationStart;
+      const loadTime = navigation.loadEventEnd - navigation.startTime;
       
       console.log('Page Load Time:', loadTime);
       if (loadTime > 3000) {
