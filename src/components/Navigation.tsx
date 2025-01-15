@@ -1,9 +1,82 @@
-import { useState } from "react";
-import { Menu, X, ShieldCheck } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Menu, X, ShieldCheck, Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/lib/supabase";
+
+const getInitials = (name) => {
+  if (!name) return "U";
+  return name
+    .split(" ")
+    .map((word) => word[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
+};
+
+const UserAvatar = ({ user }) => {
+  const initials = getInitials(user.user_metadata?.full_name);
+  const avatarUrl = user.user_metadata.avatar_url;
+
+  return (
+    <div className="flex items-center gap-2">
+      {avatarUrl ? (
+        <img
+          src={avatarUrl}
+          // alt={initials}
+          className="w-8 h-8 rounded-lg object-cover border border-gray-200"
+        />
+      ) : (
+        <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white font-medium">
+          {initials}
+        </div>
+      )}
+      <span className="text-sm font-medium">
+        {user.user_metadata?.full_name || "User"}
+      </span>
+    </div>
+  );
+};
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+        setUser(user);
+        console.log(user);
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => {
+      subscription?.unsubscribe();
+    };
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-16 bg-white shadow-md fixed w-full z-50">
+        <Loader className="h-6 w-6 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   return (
     <nav className="bg-white shadow-md fixed w-full z-50">
@@ -31,9 +104,16 @@ const Navigation = () => {
               Request Demo
             </Button>
 
-            <button className="px-8 py-2 rounded-full bg-gradient-to-b from-blue-500 to-blue-600 text-white focus:ring-2 focus:ring-blue-400 hover:shadow-xl transition duration-200">
-              Shop Now
-            </button>
+            <a
+              className="flex items-center px-4 py-2 rounded-lg hover:bg-gray-100 transition duration-200"
+              href={user ? "/" : "/signup"}
+            >
+              {user ? (
+                <UserAvatar user={user} />
+              ) : (
+                <span className="font-medium">Sign Up</span>
+              )}
+            </a>
           </div>
 
           {/* Mobile menu button */}
@@ -41,6 +121,7 @@ const Navigation = () => {
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="text-gray-600 hover:text-primary"
+              aria-label={isOpen ? "Close menu" : "Open menu"}
             >
               {isOpen ? (
                 <X className="h-6 w-6" />
@@ -76,7 +157,16 @@ const Navigation = () => {
               <Button variant="outline" className="mx-4 mb-2">
                 Request Demo
               </Button>
-              <Button className="mx-4">Shop Now</Button>
+              <a
+                href={user ? "/" : "/signup"}
+                className="mx-4 px-4 py-2 flex items-center justify-center rounded-lg hover:bg-gray-100 transition duration-200"
+              >
+                {user ? (
+                  <UserAvatar user={user} />
+                ) : (
+                  <span className="font-medium">Sign Up</span>
+                )}
+              </a>
             </div>
           </div>
         )}
