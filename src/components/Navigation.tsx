@@ -11,16 +11,29 @@ const Navigation = () => {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             <ShieldCheck className="h-8 w-8 text-primary" />
-            <span className="ml-2 text-xl font-bold text-primary">SecureVision</span>
+            <span className="ml-2 text-xl font-bold text-primary">
+              SecureVision
+            </span>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <a href="#products" className="text-gray-600 hover:text-primary">Products</a>
-            <a href="#solutions" className="text-gray-600 hover:text-primary">Solutions</a>
-            <a href="#about" className="text-gray-600 hover:text-primary">About</a>
-            <Button variant="outline" className="mr-2">Request Demo</Button>
-            <Button>Shop Now</Button>
+            <a href="#products" className="text-gray-600 hover:text-primary">
+              Products
+            </a>
+            <a href="#solutions" className="text-gray-600 hover:text-primary">
+              Solutions
+            </a>
+            <a href="#about" className="text-gray-600 hover:text-primary">
+              About
+            </a>
+            <Button variant="outline" className="mr-2">
+              Request Demo
+            </Button>
+
+            <button className="px-8 py-2 rounded-full bg-gradient-to-b from-blue-500 to-blue-600 text-white focus:ring-2 focus:ring-blue-400 hover:shadow-xl transition duration-200">
+              Shop Now
+            </button>
           </div>
 
           {/* Mobile menu button */}
@@ -29,7 +42,11 @@ const Navigation = () => {
               onClick={() => setIsOpen(!isOpen)}
               className="text-gray-600 hover:text-primary"
             >
-              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {isOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
             </button>
           </div>
         </div>
@@ -38,10 +55,27 @@ const Navigation = () => {
         {isOpen && (
           <div className="md:hidden pb-4">
             <div className="flex flex-col space-y-4">
-              <a href="#products" className="text-gray-600 hover:text-primary px-4">Products</a>
-              <a href="#solutions" className="text-gray-600 hover:text-primary px-4">Solutions</a>
-              <a href="#about" className="text-gray-600 hover:text-primary px-4">About</a>
-              <Button variant="outline" className="mx-4 mb-2">Request Demo</Button>
+              <a
+                href="#products"
+                className="text-gray-600 hover:text-primary px-4"
+              >
+                Products
+              </a>
+              <a
+                href="#solutions"
+                className="text-gray-600 hover:text-primary px-4"
+              >
+                Solutions
+              </a>
+              <a
+                href="#about"
+                className="text-gray-600 hover:text-primary px-4"
+              >
+                About
+              </a>
+              <Button variant="outline" className="mx-4 mb-2">
+                Request Demo
+              </Button>
               <Button className="mx-4">Shop Now</Button>
             </div>
           </div>
