@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import * as React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Separator } from "@/components/ui/separator";
@@ -6,6 +6,7 @@ import { Shield, ShieldCheck, ShieldAlert, Camera } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { Product } from "@/types/product";
 import { useToast } from "@/components/ui/use-toast";
+import { useEffect, useState } from "react";
 
 const Products = () => {
   const [products, setProducts] = useState<Product[]>([]);
