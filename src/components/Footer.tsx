@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 
 const Footer = () => {
   return (
-    <footer className="bg-primary text-white">
+    <footer className="bg-gradient-to-br from-primary to-primary-light text-white">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 py-16">
           {/* Company Info */}
@@ -12,7 +12,7 @@ const Footer = () => {
               <ShieldCheck className="h-8 w-8" />
               <span className="text-xl font-bold">SecureVision</span>
             </div>
-            <p className="text-gray-300">
+            <p className="text-gray-200">
               Leading provider of advanced security solutions for businesses and homes.
             </p>
             <div className="flex gap-4">
@@ -36,16 +36,16 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <a href="#products" className="text-gray-300 hover:text-accent transition-colors">Products</a>
+                <a href="#products" className="text-gray-200 hover:text-accent transition-colors">Products</a>
               </li>
               <li>
-                <a href="#solutions" className="text-gray-300 hover:text-accent transition-colors">Solutions</a>
+                <a href="#solutions" className="text-gray-200 hover:text-accent transition-colors">Solutions</a>
               </li>
               <li>
-                <a href="#about" className="text-gray-300 hover:text-accent transition-colors">About Us</a>
+                <a href="#about" className="text-gray-200 hover:text-accent transition-colors">About Us</a>
               </li>
               <li>
-                <a href="#testimonials" className="text-gray-300 hover:text-accent transition-colors">Testimonials</a>
+                <a href="#testimonials" className="text-gray-200 hover:text-accent transition-colors">Testimonials</a>
               </li>
             </ul>
           </div>
@@ -56,19 +56,19 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-center gap-2">
                 <Mail className="h-5 w-5 text-accent" />
-                <a href="mailto:info@securevision.com" className="text-gray-300 hover:text-accent transition-colors">
+                <a href="mailto:info@securevision.com" className="text-gray-200 hover:text-accent transition-colors">
                   info@securevision.com
                 </a>
               </li>
               <li className="flex items-center gap-2">
                 <Phone className="h-5 w-5 text-accent" />
-                <a href="tel:+1234567890" className="text-gray-300 hover:text-accent transition-colors">
+                <a href="tel:+1234567890" className="text-gray-200 hover:text-accent transition-colors">
                   +1 (234) 567-890
                 </a>
               </li>
               <li className="flex items-center gap-2">
                 <MapPin className="h-5 w-5 text-accent" />
-                <span className="text-gray-300">
+                <span className="text-gray-200">
                   123 Security Ave, Tech City, TC 12345
                 </span>
               </li>
@@ -78,14 +78,14 @@ const Footer = () => {
           {/* Newsletter */}
           <div>
             <h3 className="text-lg font-semibold mb-4">Stay Updated</h3>
-            <p className="text-gray-300 mb-4">
+            <p className="text-gray-200 mb-4">
               Subscribe to our newsletter for the latest security updates and news.
             </p>
             <form onSubmit={(e) => e.preventDefault()} className="space-y-2">
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="w-full px-4 py-2 rounded bg-white/10 border border-white/20 focus:outline-none focus:border-accent"
+                className="w-full px-4 py-2 rounded bg-white/10 border border-white/20 focus:outline-none focus:border-accent text-white placeholder:text-gray-300"
               />
               <Button className="w-full bg-accent hover:bg-accent-light text-primary font-semibold">
                 Subscribe
@@ -95,7 +95,7 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-white/10 py-6 text-center text-sm text-gray-300">
+        <div className="border-t border-white/10 py-6 text-center text-sm text-gray-200">
           <p>© 2024 SecureVision. All rights reserved.</p>
         </div>
       </div>
