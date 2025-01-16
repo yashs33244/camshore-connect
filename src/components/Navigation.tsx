@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Menu, X, ShieldCheck, Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/lib/supabase";
+import { useNavigate } from "react-router-dom";
 
 const getInitials = (name) => {
   if (!name) return "U";
