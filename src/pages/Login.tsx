@@ -54,9 +54,7 @@ const Login = () => {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo:
-            process.env.NEXT_PUBLIC_SITE_URL ||
-            "http://localhost:8080/auth/callback",
+          redirectTo: import.meta.env.VITE_SITE_URL,
         },
       });
 
