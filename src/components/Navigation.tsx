@@ -1,6 +1,21 @@
 import { useEffect, useState } from "react";
-import { Menu, X, ShieldCheck, Loader } from "lucide-react";
+import {
+  Menu,
+  X,
+  ShieldCheck,
+  Loader,
+  LogOut,
+  LayoutDashboard,
+  ChevronDown,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { supabase } from "@/lib/supabase";
 import { useNavigate } from "react-router-dom";
 
@@ -14,16 +29,16 @@ const getInitials = (name) => {
     .slice(0, 2);
 };
 
-const UserAvatar = ({ user }) => {
+const UserAvatar = ({ user, onClick }: any) => {
   const initials = getInitials(user.user_metadata?.full_name);
-  const avatarUrl = user.user_metadata.avatar_url;
+  const avatarUrl = user.user_metadata?.picture;
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 cursor-pointer" onClick={onClick}>
       {avatarUrl ? (
         <img
           src={avatarUrl}
-          // alt={initials}
+          alt={initials}
           className="w-8 h-8 rounded-lg object-cover border border-gray-200"
         />
       ) : (
@@ -34,6 +49,7 @@ const UserAvatar = ({ user }) => {
       <span className="text-sm font-medium">
         {user.user_metadata?.full_name || "User"}
       </span>
+      <ChevronDown className="h-4 w-4 text-gray-500" />
     </div>
   );
 };
@@ -51,7 +67,6 @@ const Navigation = () => {
           data: { user },
         } = await supabase.auth.getUser();
         setUser(user);
-        console.log(user);
       } catch (error) {
         console.error("Error fetching user:", error);
       } finally {
@@ -73,7 +88,17 @@ const Navigation = () => {
   }, []);
 
   const handleDashboardClick = () => {
-    navigate('/dashboard');
+    navigate("/dashboard");
+    setIsOpen(false);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut();
+      navigate("/");
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
   };
 
   if (loading) {
@@ -114,13 +139,38 @@ const Navigation = () => {
 
             {user ? (
               <div className="flex items-center gap-4">
-                <Button variant="ghost" onClick={handleDashboardClick}>
-                  Dashboard
-                </Button>
-                <UserAvatar user={user} />
+                <DropdownMenu>
+                  <DropdownMenuTrigger className="focus:outline-none">
+                    <UserAvatar user={user} />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56 bg-white">
+                    <div className="px-2 py-1.5 text-sm text-gray-500">
+                      Signed in as {user.email}
+                    </div>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      onClick={handleDashboardClick}
+                      className="cursor-pointer"
+                    >
+                      <LayoutDashboard className="mr-2 h-4 w-4" />
+                      Dashboard
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      onClick={handleLogout}
+                      className="cursor-pointer text-red-600"
+                    >
+                      <LogOut className="mr-2 h-4 w-4" />
+                      Sign Out
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             ) : (
-              <a href="/signup" className="font-medium">
+              <a
+                href="/signup"
+                className="font-medium bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark"
+              >
                 Sign Up
               </a>
             )}
@@ -171,15 +221,26 @@ const Navigation = () => {
               )}
               {user ? (
                 <>
-                  <Button
-                    variant="ghost"
-                    onClick={handleDashboardClick}
-                    className="mx-4"
-                  >
-                    Dashboard
-                  </Button>
-                  <div className="mx-4 px-4 py-2 flex items-center rounded-lg hover:bg-gray-100">
-                    <UserAvatar user={user} />
+                  <div className="border-t border-gray-200 pt-4">
+                    <div className="mx-4 px-4 py-2">
+                      <UserAvatar user={user} />
+                    </div>
+                    <Button
+                      variant="ghost"
+                      onClick={handleDashboardClick}
+                      className="mx-4 w-[calc(100%-32px)] justify-start"
+                    >
+                      <LayoutDashboard className="mr-2 h-4 w-4" />
+                      Dashboard
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      onClick={handleLogout}
+                      className="mx-4 w-[calc(100%-32px)] justify-start text-red-600 hover:text-red-700 hover:bg-red-50"
+                    >
+                      <LogOut className="mr-2 h-4 w-4" />
+                      Sign Out
+                    </Button>
                   </div>
                 </>
               ) : (

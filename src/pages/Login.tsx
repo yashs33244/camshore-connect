@@ -33,11 +33,11 @@ const Login = () => {
       if (error) throw error;
 
       toast({
-        title: "Login successful",
-        description: "Welcome back!",
+        title: "Success",
+        description: "Logged in successfully",
       });
 
-      navigate("/");
+      navigate("/dashboard"); // or wherever you want to redirect after login
     } catch (error: any) {
       toast({
         title: "Error",
@@ -53,6 +53,11 @@ const Login = () => {
     try {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
+        options: {
+          redirectTo:
+            process.env.NEXT_PUBLIC_SITE_URL ||
+            "http://localhost:8080/auth/callback",
+        },
       });
 
       if (error) throw error;
@@ -70,10 +75,10 @@ const Login = () => {
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center">
-            Login
+            Welcome back
           </CardTitle>
           <CardDescription className="text-center">
-            Enter your credentials to access your account
+            Enter your credentials to login
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -96,6 +101,13 @@ const Login = () => {
                 required
               />
             </div>
+            <Button
+              variant="link"
+              className="px-0 font-semibold text-sm w-full text-right"
+              onClick={() => navigate("/forgot-password")}
+            >
+              Forgot Password?
+            </Button>
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? "Loading..." : "Login"}
             </Button>
