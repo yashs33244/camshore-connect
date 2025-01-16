@@ -110,3 +110,10 @@ Visit the application at [http://localhost:4173](http://localhost:4173) in your 
 
 If you'd like to contribute to this project, please fork the repository and create a pull request with your changes. Make sure to follow the existing coding style and include unit tests where necessary.
 
+---
+
+This concludes the README for Camshore Connect. If you have any questions, feel free to reach out!
+
+--- 
+
+Let me know if you need further adjustments or additions to this README!
