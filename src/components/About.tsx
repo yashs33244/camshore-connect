@@ -1,28 +1,60 @@
+import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Shield, Award, Users, Clock } from "lucide-react";
 
 const stats = [
-  { icon: Shield, value: "10K+", label: "Installations" },
-  { icon: Users, value: "50K+", label: "Happy Clients" },
-  { icon: Award, value: "15+", label: "Years Experience" },
-  { icon: Clock, value: "24/7", label: "Support" },
+  { icon: Shield, value: 10000, label: "Installations", prefix: "", suffix: "+" },
+  { icon: Users, value: 50000, label: "Happy Clients", prefix: "", suffix: "+" },
+  { icon: Award, value: 15, label: "Years Experience", prefix: "", suffix: "+" },
+  { icon: Clock, value: 24, label: "Support", prefix: "", suffix: "/7" },
 ];
+
+const AnimatedNumber = ({ value, prefix = "", suffix = "" }) => {
+  const [count, setCount] = useState(0);
+  
+  useEffect(() => {
+    const duration = 2000; // 2 seconds
+    const steps = 60;
+    const stepValue = value / steps;
+    let current = 0;
+    
+    const timer = setInterval(() => {
+      current += stepValue;
+      if (current >= value) {
+        setCount(value);
+        clearInterval(timer);
+      } else {
+        setCount(Math.floor(current));
+      }
+    }, duration / steps);
+    
+    return () => clearInterval(timer);
+  }, [value]);
+  
+  return (
+    <span className="text-3xl font-bold text-primary">
+      {prefix}
+      {count}
+      {suffix}
+    </span>
+  );
+};
 
 const team = [
   {
     name: "Sarah Johnson",
     role: "CEO",
-    image: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?auto=format&fit=crop&w=800&q=80"
+    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=800&q=80"
   },
   {
     name: "Michael Chen",
     role: "CTO",
-    image: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&w=800&q=80"
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80"
   },
   {
     name: "Emily Rodriguez",
     role: "Head of Operations",
-    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80"
+    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=800&q=80"
   }
 ];
 
@@ -46,7 +78,13 @@ const About = () => {
             >
               <CardContent className="p-0">
                 <stat.icon className="h-8 w-8 mx-auto mb-4 text-primary" />
-                <div className="text-3xl font-bold text-primary mb-2">{stat.value}</div>
+                <div className="mb-2">
+                  <AnimatedNumber 
+                    value={stat.value} 
+                    prefix={stat.prefix} 
+                    suffix={stat.suffix} 
+                  />
+                </div>
                 <div className="text-gray-600">{stat.label}</div>
               </CardContent>
             </Card>

@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Star, Quote } from "lucide-react";
 
@@ -26,8 +27,32 @@ const testimonials = [
 ];
 
 const Testimonials = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    const element = document.getElementById('testimonials-section');
+    if (element) {
+      observer.observe(element);
+    }
+
+    return () => {
+      if (element) {
+        observer.unobserve(element);
+      }
+    };
+  }, []);
+
   return (
-    <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
+    <section id="testimonials-section" className="py-20 bg-gradient-to-br from-gray-50 to-white">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-4xl font-bold text-primary mb-4">What Our Clients Say</h2>
@@ -40,8 +65,13 @@ const Testimonials = () => {
           {testimonials.map((testimonial, index) => (
             <Card 
               key={index}
-              className="group hover:shadow-xl transition-all duration-300 animate-fade-in overflow-hidden"
-              style={{ animationDelay: `${index * 100}ms` }}
+              className={`group hover:shadow-xl transition-all duration-300 overflow-hidden transform ${
+                isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+              }`}
+              style={{ 
+                transitionDelay: `${index * 200}ms`,
+                transitionDuration: '1000ms'
+              }}
             >
               <CardContent className="p-6">
                 <Quote className="h-8 w-8 text-primary/20 mb-4" />
