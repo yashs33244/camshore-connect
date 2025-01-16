@@ -41,6 +41,7 @@ const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -69,6 +70,10 @@ const Navigation = () => {
       subscription?.unsubscribe();
     };
   }, []);
+
+  const handleDashboardClick = () => {
+    navigate('/dashboard');
+  };
 
   if (loading) {
     return (
@@ -100,20 +105,24 @@ const Navigation = () => {
             <a href="#about" className="text-gray-600 hover:text-primary">
               About
             </a>
-            <Button variant="outline" className="mr-2">
-              Request Demo
-            </Button>
+            {!user && (
+              <Button variant="outline" className="mr-2">
+                Request Demo
+              </Button>
+            )}
 
-            <a
-              className="flex items-center px-4 py-2 rounded-lg hover:bg-gray-100 transition duration-200"
-              href={user ? "/" : "/signup"}
-            >
-              {user ? (
+            {user ? (
+              <div className="flex items-center gap-4">
+                <Button variant="ghost" onClick={handleDashboardClick}>
+                  Dashboard
+                </Button>
                 <UserAvatar user={user} />
-              ) : (
-                <span className="font-medium">Sign Up</span>
-              )}
-            </a>
+              </div>
+            ) : (
+              <a href="/signup" className="font-medium">
+                Sign Up
+              </a>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -154,19 +163,32 @@ const Navigation = () => {
               >
                 About
               </a>
-              <Button variant="outline" className="mx-4 mb-2">
-                Request Demo
-              </Button>
-              <a
-                href={user ? "/" : "/signup"}
-                className="mx-4 px-4 py-2 flex items-center justify-center rounded-lg hover:bg-gray-100 transition duration-200"
-              >
-                {user ? (
-                  <UserAvatar user={user} />
-                ) : (
+              {!user && (
+                <Button variant="outline" className="mx-4 mb-2">
+                  Request Demo
+                </Button>
+              )}
+              {user ? (
+                <>
+                  <Button
+                    variant="ghost"
+                    onClick={handleDashboardClick}
+                    className="mx-4"
+                  >
+                    Dashboard
+                  </Button>
+                  <div className="mx-4 px-4 py-2 flex items-center rounded-lg hover:bg-gray-100">
+                    <UserAvatar user={user} />
+                  </div>
+                </>
+              ) : (
+                <a
+                  href="/signup"
+                  className="mx-4 px-4 py-2 flex items-center justify-center rounded-lg hover:bg-gray-100"
+                >
                   <span className="font-medium">Sign Up</span>
-                )}
-              </a>
+                </a>
+              )}
             </div>
           </div>
         )}

@@ -9,11 +9,43 @@ const stats = [
   { icon: Clock, value: 24, label: "Support", prefix: "", suffix: "/7" },
 ];
 
+const formatNumber = (num: number): string => {
+  if (num >= 1000) {
+    return (num / 1000).toFixed(1) + 'k';
+  }
+  return num.toString();
+};
+
 const AnimatedNumber = ({ value, prefix = "", suffix = "" }) => {
   const [count, setCount] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
   
   useEffect(() => {
-    const duration = 2000; // 2 seconds
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    const element = document.getElementById('stats-section');
+    if (element) {
+      observer.observe(element);
+    }
+
+    return () => {
+      if (element) {
+        observer.unobserve(element);
+      }
+    };
+  }, []);
+  
+  useEffect(() => {
+    if (!isVisible) return;
+
+    const duration = 2000;
     const steps = 60;
     const stepValue = value / steps;
     let current = 0;
@@ -29,12 +61,12 @@ const AnimatedNumber = ({ value, prefix = "", suffix = "" }) => {
     }, duration / steps);
     
     return () => clearInterval(timer);
-  }, [value]);
+  }, [value, isVisible]);
   
   return (
     <span className="text-3xl font-bold text-primary">
       {prefix}
-      {count}
+      {formatNumber(count)}
       {suffix}
     </span>
   );
@@ -69,7 +101,7 @@ const About = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-20">
+        <div id="stats-section" className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-20">
           {stats.map((stat, index) => (
             <Card 
               key={index}
