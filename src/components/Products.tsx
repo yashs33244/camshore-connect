@@ -19,13 +19,18 @@ const Products = () => {
 
   const fetchProducts = async () => {
     try {
+      console.log('Fetching products...');
       const { data, error } = await supabase
         .from('products')
         .select('*')
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Supabase error:', error);
+        throw error;
+      }
 
+      console.log('Products fetched:', data);
       setProducts(data || []);
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -56,6 +61,15 @@ const Products = () => {
     return (
       <div className="flex justify-center items-center min-h-[400px]">
         <div className="animate-pulse w-16 h-16 rounded-full bg-primary/20" />
+      </div>
+    );
+  }
+
+  // If no products are found, display a message
+  if (products.length === 0) {
+    return (
+      <div className="flex justify-center items-center min-h-[400px]">
+        <p className="text-gray-500">No products available</p>
       </div>
     );
   }
