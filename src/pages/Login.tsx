@@ -57,6 +57,7 @@ const Login = () => {
           redirectTo: import.meta.env.VITE_SITE_URL,
         },
       });
+      console.log(import.meta.env.VITE_SITE_URL);
 
       if (error) throw error;
     } catch (error: any) {
